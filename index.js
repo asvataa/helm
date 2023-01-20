@@ -78,6 +78,17 @@ function getSecrets(secrets) {
   return secrets;
 }
 
+function getVars(vars) {
+  if (typeof vars === "string") {
+    try {
+      return JSON.parse(vars);
+    } catch (err) {
+      return vars;
+    }
+  }
+  return vars;
+}
+
 function getValueFiles(files) {
   let fileList;
   if (typeof files === "string") {
@@ -196,9 +207,11 @@ async function deploy(helm) {
   const chart = chartName(getInput("chart", required));
   const chartVersion = getInput("chart_version");
   const values = getValues(getInput("values"));
+  const values_prefix = getInput("valprefix");
+  const vars = getVars(getInput("vars"));
   const task = getInput("task");
   const version = getInput("version");
-  const valueFiles = getValueFiles(getInput("value_files"));
+  const valueFiles = getValueFiles(getInput("valuefiles"));
   const removeCanary = getInput("remove_canary");
   const timeout = getInput("timeout");
   const dryRun = core.getInput("dry-run");
@@ -253,7 +266,28 @@ async function deploy(helm) {
     args.push("--atomic");
   }
 
-  await writeFile("./values.yml", values);
+  let vars_to_deploy = { env: {} }
+  let secrets_to_deploy = { secrets: {} }
+
+  for (const key in vars) {
+    if (key.startsWith(values_prefix)) {
+      vars_to_deploy.env[key.replace(values_prefix + '_', '')] = vars[key]
+    }
+  }
+
+  for (const key in secrets) {
+    if (key.startsWith(values_prefix)) {
+      secrets_to_deploy.secrets[key.replace(values_prefix + '_', '')] = secrets[key]
+    }
+  }
+
+  const value_data = {
+    ...vars_to_deploy,
+    ...secrets_to_deploy,
+    ...JSON.parse(values)
+  }
+
+  await writeFile("./values.yml", JSON.stringify(value_data));
 
   core.debug(`env: KUBECONFIG="${process.env.KUBECONFIG}"`);
 
