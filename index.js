@@ -225,6 +225,7 @@ async function deploy(helm) {
   core.debug(`param: chart = "${chart}"`);
   core.debug(`param: chart_version = "${chartVersion}"`);
   core.debug(`param: values = "${values}"`);
+  core.debug(`param: vars = "${vars}"`);
   core.debug(`param: dryRun = "${dryRun}"`);
   core.debug(`param: task = "${task}"`);
   core.debug(`param: version = "${version}"`);
@@ -283,8 +284,7 @@ async function deploy(helm) {
 
   const value_data = {
     ...vars_to_deploy,
-    ...secrets_to_deploy,
-    ...JSON.parse(values)
+    ...secrets_to_deploy
   }
 
   await writeFile("./values.yml", JSON.stringify(value_data));
