@@ -312,6 +312,10 @@ async function deploy(helm) {
     });
   }
 
+  const test = await readFile("./values.yml", { encoding: "utf8" });
+
+  core.info(`values="${test}"`);
+
   return exec.exec(helm, args);
 }
 
