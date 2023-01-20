@@ -85,7 +85,7 @@ livenessProbe:
     path: /
     port: http
 
-# readinessProbe -- Customize the readiness probe.
+# readinessProbe -- Customize the readinwess probe.
 readinessProbe:
   httpGet:
     path: /

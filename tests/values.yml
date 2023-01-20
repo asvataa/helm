@@ -1,1 +1,1 @@
-{"replicaCount": 1, "image": {"repository": "nginx", "tag": "latest"}}
+{"env":{"asd":"value","qwe":"value2"},"secrets":{"secret":"asdasd"},"replicaCount":1,"image":{"repository":"nginx","tag":"latest"}}
