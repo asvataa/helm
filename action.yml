@@ -43,6 +43,12 @@ inputs:
     description: Secret variables to include in value file interpolation. Expects
       JSON encoded map.
     required: false
+  vars:
+    description: All vars Expects JSON encoded map
+    required: false
+  valprefix:
+    description: Need values prefix
+    required: false
   version:
     description: Version of the app, usually commit sha works here.
     required: false
@@ -66,4 +72,4 @@ inputs:
     required: false
 runs:
   using: docker
-  image: docker://ghcr.io/vimeda/helm
+  image: docker://ghcr.io/asvataa/helm:master-74ee0a5
