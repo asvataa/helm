@@ -269,6 +269,9 @@ async function deploy(helm) {
 
   let vars_to_deploy = { env: {} }
   let secrets_to_deploy = { secrets: {} }
+  const image = {
+    image: process.env.image
+  }
 
   for (const key in vars) {
     if (key.startsWith(values_prefix)) {
@@ -283,6 +286,7 @@ async function deploy(helm) {
   }
 
   const value_data = {
+    ...image,
     ...vars_to_deploy,
     ...secrets_to_deploy
   }
@@ -312,9 +316,9 @@ async function deploy(helm) {
     });
   }
 
-  const test = await readFile("./values.yml", { encoding: "utf8" });
+  const printValues = await readFile("./values.yml", { encoding: "utf8" });
 
-  core.info(`values="${test}"`);
+  core.debug(`values="${printValues}"`);
 
   return exec.exec(helm, args);
 }
