@@ -4,6 +4,7 @@ const exec = require("@actions/exec");
 const fs = require("fs");
 const util = require("util");
 const Mustache = require("mustache");
+const YAML = require('yamljs');
 
 const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
@@ -41,6 +42,11 @@ async function status(state) {
   } catch (error) {
     core.warning(`Failed to set deployment status: ${error.message}`);
   }
+}
+
+function YAMLtoJSON(yamlStr) {
+  let obj = YAML.parse(yamlStr);
+  return JSON.stringify(obj);
 }
 
 function releaseName(name, track) {
@@ -269,6 +275,7 @@ async function deploy(helm) {
 
   let vars_to_deploy = { env: {} }
   let secrets_to_deploy = { secrets: {} }
+  const valuefromwf = YAMLtoJSON(values)
   const image = {
     image: process.env.image
   }
@@ -287,6 +294,7 @@ async function deploy(helm) {
 
   const value_data = {
     ...image,
+    ...valuefromwf,
     ...vars_to_deploy,
     ...secrets_to_deploy
   }
