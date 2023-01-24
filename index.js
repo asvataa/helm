@@ -4,7 +4,7 @@ const exec = require("@actions/exec");
 const fs = require("fs");
 const util = require("util");
 const Mustache = require("mustache");
-const YAML = require('yamljs');
+const YAML = require('yaml');
 
 const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
@@ -45,8 +45,9 @@ async function status(state) {
 }
 
 function YAMLtoJSON(yamlStr) {
-  let obj = YAML.parse(yamlStr);
-  return JSON.stringify(obj);
+  const q = yamlStr.replace(/(\\r\\n)/gm, "\r\n")
+  let obj = YAML.parse(q);
+  return obj;
 }
 
 function releaseName(name, track) {

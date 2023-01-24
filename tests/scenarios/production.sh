@@ -11,5 +11,5 @@ INPUT_RELEASE=app \
 INPUT_VERSION=1234 \
 INPUT_TRACK=stable \
 INPUT_VALUEFILES='./values-prod.yaml' \
-INPUT_VALUES='{"replicaCount": 1, "image": {"repository": "nginx", "tag": "latest"}}' \
+INPUT_VALUES="terminationGracePeriodSeconds: 60\r\nautoscaling:\r\n  enabled: false" \
 node ../index.js
