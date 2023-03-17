@@ -249,6 +249,7 @@ async function deploy(helm) {
     chart,
     "--install",
     "--wait",
+    "--cleanup-on-fail",
     `--namespace=${namespace}`,
   ];
 
