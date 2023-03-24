@@ -277,6 +277,7 @@ async function deploy(helm) {
 
   let vars_to_deploy = { env: {} }
   let secrets_to_deploy = { secrets: {} }
+  let envs_name_debug = []
   const valuefromwf = YAMLtoJSON(values)
   const image = {
     image: process.env.image
@@ -285,6 +286,7 @@ async function deploy(helm) {
   for (const key in vars) {
     if (key.startsWith(values_prefix)) {
       vars_to_deploy.env[key.replace(values_prefix + '_', '')] = vars[key]
+      envs_name_debug.push(key)
     }
   }
 
@@ -302,6 +304,8 @@ async function deploy(helm) {
   }
 
   await writeFile("./values.yml", JSON.stringify(value_data));
+
+  core.debug(`param: secretes and vars name = "${envs_name_debug.join()}"`);
 
   core.debug(`env: KUBECONFIG="${process.env.KUBECONFIG}"`);
 
