@@ -293,6 +293,7 @@ async function deploy(helm) {
   for (const key in secrets) {
     if (key.startsWith(values_prefix)) {
       secrets_to_deploy.secrets[key.replace(values_prefix + '_', '')] = secrets[key]
+      envs_name_debug.push(key)
     }
   }
 
