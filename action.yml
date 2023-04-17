@@ -72,4 +72,4 @@ inputs:
     required: false
 runs:
   using: docker
-  image: docker://ghcr.io/asvataa/helm:master-9ab8461
+  image: docker://ghcr.io/asvataa/helm:master-c5060a8
