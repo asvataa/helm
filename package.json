@@ -3,10 +3,10 @@
   "version": "1.7.0",
   "main": "index.js",
   "license": "MIT",
-  "homepage": "https://github.com/deliverybot/helm",
+  "homepage": "https://github.com/asvaata/helm",
   "author": {
-    "name": "deliverybot",
-    "url": "https://github.com/deliverybot"
+    "name": "asvaata",
+    "url": "https://github.com/asvaata"
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
@@ -17,6 +17,7 @@
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "release": "standard-version"
+    "release": "standard-version",
+    "build": "npx @vercel/ncc@0.34.0 build index.js"
   }
 }

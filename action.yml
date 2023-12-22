@@ -1,6 +1,6 @@
-name: Helm Deploy
+name: helm deploy to k8s
 description: Deploys a helm chart to Kubernetes
-author: lykon
+author: asvaata
 branding:
   icon: anchor
   color: gray-dark
@@ -71,5 +71,5 @@ inputs:
     description: Helm repository password if authentication is needed.
     required: false
 runs:
-  using: docker
-  image: docker://ghcr.io/asvataa/helm:master-c5060a8
+  using: node20
+  main: dist/index.js
